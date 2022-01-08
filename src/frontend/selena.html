@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Font Icon CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous"/>
+    <!-- Local CSS file -->
+	<link rel="stylesheet" href="selena.css">
+	<title>Selena - Simple Elevation Navigation</title>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBQIIBs6JaQjM3OViYfk_KpuKdnUGZTq-o&v=3.exp&sensor=false&libraries=places"></script>
+    <script>
+	<!-- Initialisation functions for autocomplete field powered by gmaps -->
+        function initialize() {
+        var input = document.getElementById('searchTextField');
+        new google.maps.places.Autocomplete(input);
+        }
+        function initialize2() {
+        var input = document.getElementById('searchTextField2');
+        new google.maps.places.Autocomplete(input);
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+        google.maps.event.addDomListener(window, 'load', initialize2);
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+  <body class="bg-light"> <!-- Page bpdy with UI components -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div class="container">
+        <div class="py-4 text-center">
+            <img class="mb-4 d-block mx-auto" src="logo.png" alt="Bootstrap Logo" width="150" height="150">
+        </div>
+
+    </div>
+    
+    <div class="container">
+        <form novalidate>
+            <div class="row g-1">
+                <div class="row">
+                    <div class="col-sm-3">
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <h4 class="mb-3">Location Information</h4>
+                    </div>
+            </div>
+            <div class="row g-1 mb-3">
+                <div class="col-sm-3">
+                    
+                </div>
+                <div class="col-sm-6">
+                    <label for="cityLocation" class="form-label">City</label>
+                    <span class="bi bi-pin-map-fill"></span>
+                    <select id="city" class="form-control">
+                        <option value="default" selected disabled hidden>Select City</option>
+                        <option value="Amherst">Amherst</option>
+                        <option value="Boston">Boston</option>
+                    </select>
+                    <div class="invalid-feedback">Validate Entered Data</div>
+                </div> 
+            </div>
+            <div class="row g-1 mb-3">
+                <div class="col-sm-3">
+                    
+                </div>
+                <div class="col-sm-6">
+                    <label for="sourceLocation" class="form-label">Source</label>
+                        <span class="bi bi-geo-alt-fill">
+                        <input id="searchTextField" type="text" class="form-control" placeholder="Brandywine Dr, Amherst, MA, USA" required>
+                    <div class="invalid-feedback">Validate Entered Data</div>
+                </div>
+            </div>
+            <div class="row g-1 mb-3">
+                <div class="col-sm-3">
+                    
+                </div>
+                <div class="col-sm-6">
+                    <label for="destionationLocation" class="form-label">Destination</label>
+                    <span class="bi bi-geo-alt-fill"></span>
+                    <input id="searchTextField2" type="text" class="form-control" placeholder="Rolling Green Dr, Amherst, MA, USA" required>
+                    <div class="invalid-feedback">Validate Entered Data</div>
+                </div> 
+            </div>
+
+            <div class="row g-1">
+                <div class="row">
+                    <div class="col-sm-3">
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <hr class="my-3">
+                        <h4 class="mb-3">Algorithm Information</h4>
+                    </div>
+            </div>
+            <div class="row g-1 mb-3">
+                <div class="col-sm-3">
+                    
+                </div>
+                <div class="col-sm-6">
+                    <label for="algorithmType" class="form-label">Algorithm</label>
+                    <span class="bi bi-bezier2"></span>
+                    <select id="algorithm" class="form-control">
+                        <option value="" selected disabled hidden>Select Algorithm</option>
+                        <option value="Dijkstra">Dijkstra</option>
+                        <option value="AStar">AStar</option>
+                    </select>
+                    <div class="invalid-feedback">Validate Entered Data</div>
+                </div> 
+           </div>
+            <div class="row g-1">
+                <div class="row">
+                    <div class="col-sm-3">
+                        
+                    </div>
+                    <div class="col-sm-4">
+                        
+                        <div class="slidecontainer">
+                            <label for="elevation" class="form-label">Deviation Limit</label>
+                            <span class="bi bi-graph-up"></span>
+                            <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                            <p>Value: <span id="demo"></span></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        
+                        <div>
+                            <label for="optimType" class="form-label">Optimisation Type</label>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" class="btn btn-secondary" onclick="optimizerUpdate('min')">Min</button>
+                                <button type="button" class="btn btn-secondary" onclick="optimizerUpdate('Regular')">Regular</button>
+                                <button type="button" class="btn btn-secondary" onclick="optimizerUpdate('max')">Max</button>
+                            </div>
+                            <small class="text-muted">Regular - no elevation criteria</small>
+                        </div>
+                        
+                    </div>
+                    
+            </div>
+            <div class="row g-1">
+                <div class="row">
+                    <div class="col-sm-3">
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <hr class="my-3">
+                    </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="row text-center">
+        <div class="col-sm-3">
+            
+        </div>
+        <div class="col-sm-6 mb-2">
+            <button type="button" class="btn btn-danger " value='Reset' name='reset' onclick="return resetForm(this.form);">   Reset Fields  </button>
+            <button type="button" id="modal-activate" class="btn btn-primary"data-bs-toggle="modal" data-bs-target="#exampleModal">Generate Statistics</button>
+            <button type="button" class="btn btn-success" onclick="visualiseMap()">Visualise Path on Map</button>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> <!-- Popup modal for elevation statistics and graph -->
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header text-center bg-light">
+                <h5 class="modal-title" id="exampleModalLabel">Elevation Path Statistics</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class="div">Total Distance : <p id="distance"></p></div>
+                        
+                        <div >
+                            Steepest incline : <p id="inclineSteep"></p> 
+                        </div>
+                        <div >
+                            Elevation Gain : <p id="elevationGain"></p> 
+                        </div>
+                        <div >
+                            Average Incline : <p id="inclineAvg"></p> 
+                        </div>
+                        Elevation Graph :
+                        <div id="chart_div"></div>
+                        
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        var slider = document.getElementById("myRange");
+        var output = document.getElementById("demo");
+        output.innerHTML = slider.value; // Display the default slider value
+
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+        output.innerHTML = this.value;
+        }
+		
+		// Function to reset form and clear fields
+        function resetForm(form) {
+            // clearing inputs
+
+            var inputs = form.getElementsByTagName('input');
+            for (var i = 0; i<inputs.length; i++) {
+                switch (inputs[i].type) {
+                    // case 'hidden':
+                    case 'text':
+                        inputs[i].value = '';
+                        break;
+                    case 'radio':
+                    case 'checkbox':
+                        inputs[i].checked = false;   
+                }
+            }
+
+            // clearing selects
+            var selects = form.getElementsByTagName('select');
+            for (var i = 0; i<selects.length; i++)
+                selects[i].selectedIndex = 0;
+
+            // clearing textarea
+            var text= form.getElementsByTagName('textarea');
+            for (var i = 0; i<text.length; i++)
+                text[i].innerHTML= '';
+            document.getElementById("distance").innerHTML = "";
+            document.getElementById("inclineSteep").innerHTML = "";
+            document.getElementById("elevationGain").innerHTML = "";
+            document.getElementById("inclineAvg").innerHTML = "";
+            drawChart([])
+            return false;
+        }
+
+        optimizer="";
+        
+		// function to update the optimisation type variable and make the api call to render the map and populate the statistics modal
+        function optimizerUpdate(val){
+            optimizer=val;
+            apiCall();
+        }
+		// make async api call to local backend server with the required api request body. Use the reponse to calculate the statistics
+        async function apiCall(){
+            var city = document.getElementById("city").value;
+            var source = document.getElementById("searchTextField").value;
+            var destination = document.getElementById("searchTextField2").value;
+            var algorithm = document.getElementById("algorithm").value;
+            var deviation = parseInt(document.getElementById("myRange").value);
+            const rawResponse = await fetch('http://127.0.0.1:5000/route', {
+                method: 'POST',
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    
+                    "algorithm": algorithm,
+                    "start": source,
+                    "dest": destination,
+                    "mode": optimizer,
+                    "limit": deviation,
+                    "city": city
+                    })
+            });
+            const content = await rawResponse.json(); // async await to get the response back
+            calculateStatistics(content);
+
+        }
+		
+		// validation function to make sure no incorrect information is entered before making the api call
+        function validate(){
+            return (optimizer==="min" || optimizer==="max" ||optimizer==="Regular" ) && (document.getElementById("algorithm").value ==="Dijkstra" || document.getElementById("algorithm").value === "AStar") && document.getElementById("searchTextField").value.includes(document.getElementById("city").value) && document.getElementById("searchTextField2").value.includes(document.getElementById("city").value);
+        }
+
+		// map visualisation initiator that starts the process to open the map with the path in a new window
+        function visualiseMap(){
+            if(validate()){
+                var city = document.getElementById("city").value;
+                var source = document.getElementById("searchTextField").value;
+                var destination = document.getElementById("searchTextField2").value;
+                var algorithm = document.getElementById("algorithm").value;
+                var deviation = document.getElementById("myRange").value;
+                window.open('view_route.html'+"?city="+city+"&source="+source+"&destination="+destination+"&algorithm="+algorithm+"&deviation="+deviation+"&optim="+optimizer,'_blank');
+            }
+            else{
+                alert("The source or destination does not match the selected city");
+            }
+        }
+
+		// function to calculate the statistics based on the path data recieved from the api call made to the backend
+        function calculateStatistics(pathInfo){
+        let datas = [];
+        let finalDistance = 0;
+        let maxGrade = 0;
+        let averageGrade = 0;
+        let totalElevationGain = 0;
+        let path = pathInfo.path;
+        let path_data = pathInfo.path_data;
+
+        let label = [];
+        let elevData = [];
+        let total_Dist = 0;
+        maxGrade = 0;
+        for (let i = 0; i < path.length; i++) {
+
+            let long = path[i][0];
+            let lat = path[i][1];
+            let dist = path_data[i].length;
+            let grade = path_data[i].grade;
+            let elev = path_data[i].elevation;
+
+            total_Dist += dist;
+            if (grade > maxGrade) {
+                maxGrade = grade;
+            }
+
+            if (i !== path.length - 1) {
+                averageGrade += grade;
+                if ((path_data[i+1].elevation - elev) > 0){
+                    totalElevationGain += (path_data[i+1].elevation - elev);
+                }
+            }
+            
+
+            label.push(lat + ", " + long);
+            elevData.push([i+1, elev]);
+        }
+
+        averageGrade /= path.length;
+        finalDistance = total_Dist;
+        document.getElementById("distance").innerHTML = (finalDistance/1000).toFixed(3) + " Kilometers";
+        document.getElementById("inclineSteep").innerHTML = (maxGrade * 10).toFixed(3) + " Vertical Meters per 10 Meters";
+        document.getElementById("elevationGain").innerHTML = totalElevationGain+ " Meters";
+        document.getElementById("inclineAvg").innerHTML = (averageGrade * 10).toFixed(3) + " Vertical Meters per 10 Meters";
+
+        drawChart(elevData);
+    }
+    
+    </script>
+    <script>
+        google.charts.load('current', {packages: ['corechart', 'line']});
+		// function to visualise the elevation graph using google charts library
+        function drawChart(elevationData) {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('number', 'X');
+            data.addColumn('number', 'Height');
+
+            data.addRows(elevationData);
+
+            var options = {
+                hAxis: {
+                    title: 'Path Nodes',
+                    
+                },
+                vAxis: {
+                    title: 'Elevation'
+                },
+                'width':430,
+                'height':300
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
+  </body>
+</html>
