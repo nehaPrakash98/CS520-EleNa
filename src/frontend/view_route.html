@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="view_route.css">
+<title>Map visualiser</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+<div id="container">
+<div id="map"></div>
+<div>
+<script>
+// function to make an api call to the backend server with the required request bosy passed from user input in main page.
+// Use the data from osmnx to visualise the path
+(async () => {const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var city = urlParams.get('city');
+    var source = urlParams.get('source');
+    var dest = urlParams.get('destination');
+    var algorithm = urlParams.get('algorithm');
+    var deviation = parseInt(urlParams.get('deviation'));
+    var optim = urlParams.get('optim');
+  const rawResponse = await fetch('http://127.0.0.1:5000/route', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        
+        "algorithm": algorithm,
+        "start": source,
+        "dest": dest,
+        "mode": optim,
+        "limit": deviation,
+        "city": city
+        })
+  });
+  const content = await rawResponse.json(); // async await for server response
+
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hpcmFna2FtYXRoIiwiYSI6ImNrd3RyanU4bDB2dmwydnNlY2tsN3g0cjYifQ.aBdHCXboOX8iwQhWRIn_GA';
+	
+	// map visualisation JS logic
+    const map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: content.path[0], 
+        zoom: 13
+    });
+
+    map.on('load', () => {
+        map.addSource('route', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'LineString',
+                    'coordinates': content.path
+                }
+            }
+        });
+        map.addLayer({
+            'id': 'route',
+            'type': 'line',
+            'source': 'route',
+            'layout': {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            'paint': {
+                'line-color': '#888',
+                'line-width': 8
+            }
+        });
+    });
+})();
+</script>
+
+</body>
+</html>
